@@ -5,37 +5,12 @@ const routes = require("./routes");
 const { ApolloServer, gql } = require("apollo-server-express");
 const { ApolloServerPluginDrainHttpServer } = require("apollo-server-core");
 const http = require("http");
-
+const { typeDefs, resolvers } = require('./schemas');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-const typeDefs = gql`
-  type Book {
-    title: String
-    author: String
-  }
-  type Query {
-    books: [Book]
-  }
-`;
-
-const resolvers = {
-  Query: {
-    books: () => [
-      {
-        title: "The Awakening",
-        author: "Kate Chopin",
-      },
-      {
-        title: "City of Glass",
-        author: "Paul Auster",
-      },
-    ],
-  },
-};
 
 const httpServer = http.createServer(app);
 
