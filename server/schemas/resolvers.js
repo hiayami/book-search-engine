@@ -2,7 +2,8 @@ const {
   createUser,
   login,
   getSingleUser,
-  saveBook
+  saveBook,
+  deleteBook
 } = require('../controllers/user-controller')
 
 module.exports = {
@@ -21,6 +22,8 @@ module.exports = {
     saveBook: (parent, args, ctx) => {
         return saveBook(ctx.user, args)
     },
-    removeBook: () => ({}),
+    removeBook: (parent, args, ctx) => {
+      return deleteBook( ctx.user, args )
+    },
   },
 };
