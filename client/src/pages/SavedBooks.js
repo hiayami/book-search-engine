@@ -22,11 +22,11 @@ const SavedBooks = () => {
 
         const response = await getMe(token);
 
-        if (!response.ok) {
+        if (!response?.data?.me) {
           throw new Error('something went wrong!');
         }
 
-        const user = await response.json();
+        const user = response.data.me
         setUserData(user);
       } catch (err) {
         console.error(err);

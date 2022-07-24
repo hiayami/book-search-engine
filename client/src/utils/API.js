@@ -27,14 +27,60 @@ export const CREATE_USER = gql`
   }
 `
 
+export const LOGIN = gql`
+  mutation login(
+    $email: String
+    $password: String
+  ) {
+    login(email: $email, password: $password) {
+      token
+      user {
+        _id
+        username
+        email
+        bookCount
+        savedBooks {
+          bookId
+          authors
+          description
+          title
+          image
+          link
+        }
+      }
+    }
+  }
+`
+
+export const GET_ME = gql`
+  query me {
+    me {
+      _id
+      username
+      email
+      bookCount
+      savedBooks {
+        bookId
+        authors
+        description
+        title
+        image
+        link
+      }
+    }
+  }
+`
+
 // route to get logged in user's info (needs the token)
 export const getMe = (token) => {
-  return fetch('/api/users/me', {
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
-    },
-  });
+  return client.query({
+    query: GET_ME,
+    context: {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  })
 };
 
 export const createUser = (userData) => {
@@ -45,13 +91,10 @@ export const createUser = (userData) => {
 };
 
 export const loginUser = (userData) => {
-  return fetch('/api/users/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
+  return client.mutate({
+    mutation: LOGIN,
+    variables: userData,
+  })
 };
 
 // save book data for a logged in user

@@ -6,6 +6,7 @@ const { ApolloServer, gql } = require("apollo-server-express");
 const { ApolloServerPluginDrainHttpServer } = require("apollo-server-core");
 const http = require("http");
 const { typeDefs, resolvers } = require('./schemas');
+const { authMiddlewareGql } = require('./utils/auth')
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -20,6 +21,7 @@ const server = new ApolloServer({
   csrfPrevention: true,
   cache: "bounded",
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  context: ({ req }) => authMiddlewareGql(req),
 });
 
 const startServer = async () => {

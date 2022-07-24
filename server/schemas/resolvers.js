@@ -1,11 +1,19 @@
-const { createUser } = require('../controllers/user-controller')
+const {
+  createUser,
+  login,
+  getSingleUser
+} = require('../controllers/user-controller')
 
 module.exports = {
   Query: {
-    me: () => ({}),
+    me: (parent, args, ctx) => {
+      return getSingleUser(ctx.user)
+    },
   },
   Mutation: {
-    login: () => ({}),
+    login: (_, body) => {
+        return login (body)
+    },
     addUser: (_, body) => {
       return createUser(body)
     },

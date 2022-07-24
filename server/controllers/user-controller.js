@@ -5,17 +5,17 @@ const { signToken } = require('../utils/auth');
 
 module.exports = {
   // get a single user by either their id or their username
-  async getSingleUser({ user = null, params }, res) {
+  async getSingleUser(user) {
+    const params = user
     const foundUser = await User.findOne({
       $or: [{ _id: user ? user._id : params.id }, { username: params.username }],
     });
-
     if (!foundUser) {
-      return res.status(400).json({ message: 'Cannot find a user with this id!' });
+      throw new Error('Cannot find a user with this id!' );
     }
-
-    res.json(foundUser);
+    return foundUser
   },
+
   // create a user, sign a token, and send it back (to client/src/components/SignUpForm.js)
   async createUser(body) {
     console.log('body', body)
@@ -26,21 +26,22 @@ module.exports = {
     const token = signToken(user);
     return ({ token, user })
   },
+  
   // login a user, sign a token, and send it back (to client/src/components/LoginForm.js)
   // {body} is destructured req.body
-  async login({ body }, res) {
+  async login(body) {
     const user = await User.findOne({ $or: [{ username: body.username }, { email: body.email }] });
     if (!user) {
-      return res.status(400).json({ message: "Can't find this user" });
+      throw new Error("Can't find this user" );
     }
 
     const correctPw = await user.isCorrectPassword(body.password);
 
     if (!correctPw) {
-      return res.status(400).json({ message: 'Wrong password!' });
+      throw new Error ('Wrong password!' );
     }
     const token = signToken(user);
-    res.json({ token, user });
+    return({ token, user });
   },
   // save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
   // user comes from `req.user` created in the auth middleware function
