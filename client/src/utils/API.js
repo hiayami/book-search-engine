@@ -38,18 +38,10 @@ export const getMe = (token) => {
 };
 
 export const createUser = (userData) => {
-  console.log('userdata', userData)
   return client.mutate({
     mutation: CREATE_USER,
     variables: userData
   })
-  // return fetch('/api/users', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify(userData),
-  // });
 };
 
 export const loginUser = (userData) => {
