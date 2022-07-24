@@ -1,3 +1,32 @@
+import { gql } from '@apollo/client'
+import { client } from '../App'
+
+export const CREATE_USER = gql`
+  mutation addUser(
+    $username: String
+    $email: String
+    $password: String
+  ) {
+    addUser(username: $username, email: $email, password: $password) {
+      token
+      user {
+        _id
+        username
+        email
+        bookCount
+        savedBooks {
+          bookId
+          authors
+          description
+          title
+          image
+          link
+        }
+      }
+    }
+  }
+`
+
 // route to get logged in user's info (needs the token)
 export const getMe = (token) => {
   return fetch('/api/users/me', {
@@ -9,13 +38,18 @@ export const getMe = (token) => {
 };
 
 export const createUser = (userData) => {
-  return fetch('/api/users', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
+  console.log('userdata', userData)
+  return client.mutate({
+    mutation: CREATE_USER,
+    variables: userData
+  })
+  // return fetch('/api/users', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify(userData),
+  // });
 };
 
 export const loginUser = (userData) => {

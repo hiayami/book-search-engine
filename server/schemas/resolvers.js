@@ -1,14 +1,15 @@
+const { createUser } = require('../controllers/user-controller')
+
 module.exports = {
-    Query: {
-      books: () => [
-        {
-          title: "The Awakening",
-          author: "Kate Chopin",
-        },
-        {
-          title: "City of Glass",
-          author: "Paul Auster",
-        },
-      ],
+  Query: {
+    me: () => ({}),
+  },
+  Mutation: {
+    login: () => ({}),
+    addUser: (_, body) => {
+      return createUser(body)
     },
-  };
+    saveBook: () => ({}),
+    removeBook: () => ({}),
+  },
+};
