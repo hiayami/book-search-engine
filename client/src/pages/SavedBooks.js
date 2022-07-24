@@ -2,13 +2,14 @@ import React from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 import { useQuery } from '@apollo/client';
 
-import { deleteBook, GET_ME } from '../utils/API';
+import { deleteBook } from '../utils/API';
+import { GET_ME } from '../utils/queries';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
   const token = Auth.loggedIn() ? Auth.getToken() : null;
-  const {data} = useQuery(GET_ME, {
+  const {data, refetch} = useQuery(GET_ME, {
     context: {
       headers: {
         authorization: `Bearer ${token}`,
