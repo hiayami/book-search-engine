@@ -26,16 +26,10 @@ const server = new ApolloServer({
 
 const startServer = async () => {
   await server.start();
-  server.applyMiddleware({
-    app,
-    path: "/",
-  });
+  server.applyMiddleware({ app });
   // if we're in production, serve client/build as static assets
-  if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../client/build")));
-  }
+  app.use(express.static(path.join(__dirname, "../client/build")));
 
-  app.use(routes);
   await new Promise((resolve) => db.once("open", resolve));
   await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));
   console.log(`🌍 Now listening on localhost:${PORT}${server.graphqlPath}`);
