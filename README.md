@@ -14,6 +14,7 @@ This application started with a fully functioning Google Books API search engine
 * [Questions](#questions)
 ## Installation
 Simply click the link provided:
+[Heroku deployed link](https://googs-book.herokuapp.com/)
 
 ## Usage
 Google book search engine allows users to search for a book they are interested in, save the book title/descriptions to their account and delete books from their account if no longer needed.
