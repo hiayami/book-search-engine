@@ -29,6 +29,7 @@ const startServer = async () => {
   server.applyMiddleware({ app });
   // if we're in production, serve client/build as static assets
   app.use(express.static(path.join(__dirname, "../client/build")));
+  app.use("/saved", express.static(path.join(__dirname, "../client/build")));
 
   await new Promise((resolve) => db.once("open", resolve));
   await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));
