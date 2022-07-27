@@ -18,6 +18,9 @@ Simply click the link provided:
 
 ## Usage
 Google book search engine allows users to search for a book they are interested in, save the book title/descriptions to their account and delete books from their account if no longer needed.
+
+![Screen Shot 2022-07-26 at 8 29 55 PM](https://user-images.githubusercontent.com/98536530/181154623-9c1c97dd-c3f4-4b85-93df-fd55ca66b784.png)
+
 ## License
 Read more about MIT License here: [MIT License](https://opensource.org/licenses/MIT)
 ## How to Contribute
